@@ -24,3 +24,4 @@ This application is a repository of information about a curated set of libraries
 * [standardjs](https://standardjs.com/) is used for all code.
 * Presentational components should be designed using [Storybook](https://storybook.js.org/).
 * Jest is used for testing and most things should be tested.
+* [Semantic UI](https://semantic-ui.com/) is used for styling with [Semantic UI React](https://react.semantic-ui.com/)
