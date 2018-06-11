@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from '../../components/App'
-import { MemoryRouter } from 'react-router-dom'
+import CategoryPage from '../../components/CategoryPage'
+import categories from '../fakes/categories.json'
 
 it('renders without crashing', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<MemoryRouter><App /></MemoryRouter>, div)
+  ReactDOM.render(<CategoryPage category={categories[0]} />, div)
   ReactDOM.unmountComponentAtNode(div)
 })

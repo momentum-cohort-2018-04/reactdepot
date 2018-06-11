@@ -1,6 +1,6 @@
 import React from 'react'
 import CategoryPage from './CategoryPage'
-import categories from '../stories/fakes/categories.json'
+import categories from '../test/fakes/categories.json'
 
 class CategoryPageContainer extends React.Component {
   render () {

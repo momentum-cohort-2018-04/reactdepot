@@ -14,7 +14,7 @@ import { MemoryRouter as Router } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 import CategoryList from '../components/CategoryList'
 import CategoryPage from '../components/CategoryPage'
-import categories from './fakes/categories.json'
+import categories from '../test/fakes/categories.json'
 
 addDecorator(story => (
   <Router>
