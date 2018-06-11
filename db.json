@@ -1,0 +1,50 @@
+{
+  "categories": [
+    { 
+      "id": "css-frameworks",
+      "title": "CSS Frameworks"
+    },
+    {
+      "id": "state",
+      "title": "State Management"
+    },
+    {
+      "id": "forms",
+      "title": "Forms"
+    }
+  ],
+  "libraries": [
+    {
+      "id": "1",
+      "name": "baobab-react",
+      "description": "React integration for Baobab, a persistent and optionally immutable data tree with cursors",
+      "github": "Yomguithereal/baobab-react",
+      "npm": "baobab-react",
+      "categoryId": "state"
+    },
+    {
+      "id": "2",
+      "name": "unstated",
+      "description": "State so simple, it goes without saying",
+      "github": "jamiebuilds/unstated",
+      "npm": "unstated",
+      "categoryId": "state"
+    },
+    {
+      "id": "3",
+      "name": "react-forms",
+      "description": "",
+      "github": "prometheusresearch/react-forms",
+      "npm": "react-forms",
+      "categoryId": "forms"
+    },
+    {
+      "id": "4",
+      "name": "react-formal",
+      "description": "",
+      "webpage": "http://jquense.github.io/react-formal",
+      "npm": "react-formal",
+      "github": "jquense/react-formal"
+    }
+  ]
+}
