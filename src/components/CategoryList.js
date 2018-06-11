@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Item } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const CategoryList = (props) => {
   const categories = props.categories || []
@@ -10,7 +11,9 @@ const CategoryList = (props) => {
       {categories.map(category => (
         <Item key={category.id} className='CategoryList__category'>
           <Item.Content>
-            <Item.Header>{category.title}</Item.Header>
+            <Item.Header>
+              <Link to={`/category/${category.id}`}>{category.title}</Link>
+            </Item.Header>
             <Item.Description>
               {category.libraries.length > 0
                 ? category.libraries.map(l => l.name).join(', ')
