@@ -1,7 +1,7 @@
 import React from 'react'
 
-import './bulma-custom.css'
-import './index.css'
+import '../bulma-custom.css'
+import '../index.css'
 
 import { storiesOf, addDecorator } from '@storybook/react'
 // import { action } from '@storybook/addon-actions'
@@ -9,7 +9,7 @@ import { storiesOf, addDecorator } from '@storybook/react'
 
 // import { Welcome } from '@storybook/react/demo'
 import { Container } from 'bloomer'
-import { MemoryRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import PageHeader from '../components/PageHeader'
 import CategoryList from '../components/CategoryList'

@@ -1,12 +1,35 @@
 import React from 'react'
 import CategoryPage from './CategoryPage'
-import categories from '../test/fakes/categories.json'
+import Loader from './Loader'
+import Database from '../Database'
 
 class CategoryPageContainer extends React.Component {
-  render () {
+  constructor () {
+    super()
+    this.state = {
+      loaded: false,
+      category: null
+    }
+
+    this.db = new Database()
+  }
+
+  componentDidMount () {
     const { match } = this.props
-    const category = categories.find(category => match.params.categoryId === category.id)
-    return <CategoryPage category={category} />
+    const categoryId = match.params.categoryId
+
+    this.db.getCategory(categoryId).then(category => {
+      this.setState({
+        loaded: true,
+        category: category
+      })
+    })
+  }
+
+  render () {
+    return <Loader loaded={this.state.loaded}>
+      <CategoryPage category={this.state.category} />
+    </Loader>
   }
 }
 

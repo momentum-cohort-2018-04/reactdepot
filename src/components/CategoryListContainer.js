@@ -1,7 +1,7 @@
 import React from 'react'
-import categories from '../test/fakes/categories.json'
 import CategoryList from './CategoryList'
-import Loader from 'react-loader'
+import Loader from './Loader'
+import Database from '../Database'
 
 class CategoryListContainer extends React.Component {
   constructor () {
@@ -11,10 +11,23 @@ class CategoryListContainer extends React.Component {
       loaded: false,
       categories: []
     }
+
+    this.db = new Database()
   }
+
+  componentDidMount () {
+    this.db.getCategoriesAndLibraries()
+      .then(categories => {
+        this.setState({
+          loaded: true,
+          categories: categories
+        })
+      })
+  }
+
   render () {
-    return <Loader loaded={this.state.loaded} top='150px' parentClassName='react-loader'>
-      <CategoryList categories={categories} {...this.props} />
+    return <Loader loaded={this.state.loaded}>
+      <CategoryList categories={this.state.categories} {...this.props} />
     </Loader>
   }
 }
