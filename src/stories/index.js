@@ -1,14 +1,14 @@
 import React from 'react'
 
-import 'semantic-ui-css/semantic.min.css'
+import './bulma-custom.css'
+import './index.css'
 
 import { storiesOf, addDecorator } from '@storybook/react'
 // import { action } from '@storybook/addon-actions'
 // import { linkTo } from '@storybook/addon-links'
 
 // import { Welcome } from '@storybook/react/demo'
-// import { Button, Container } from 'semantic-ui-react'
-import { Container } from 'semantic-ui-react'
+import { Container } from 'bloomer'
 import { MemoryRouter as Router } from 'react-router-dom'
 
 import PageHeader from '../components/PageHeader'

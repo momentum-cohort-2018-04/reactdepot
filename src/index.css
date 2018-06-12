@@ -1,7 +1,36 @@
-html, body {
-  font-size: 16px;
-}
-
 body {
   padding-top: 1rem;
 }
+
+.PageHeader {
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid black;
+}
+
+.PageHeader__logo {
+  width: 80px;
+  height: auto;
+  position: relative;
+  margin-left: -15px;
+  vertical-align: middle;
+}
+
+.CategoryList__category {
+  margin-bottom: 1rem;
+}
+
+.title.CategoryList__title {
+  margin-bottom: 1rem;
+}
+
+/* 
+.react-loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: white;
+  z-index: 9999;
+} */
