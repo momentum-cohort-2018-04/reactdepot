@@ -13,10 +13,7 @@ const CategoryList = (props) => {
           <Link to={`/category/${category.id}`}>{category.title}</Link>
         </Title>
         <div>
-          {category.libraries.length > 0
-            ? category.libraries.map(l => l.name).join(', ')
-            : 'No libraries'
-          }
+          {category.libraryText}
         </div>
       </div>
     ))}

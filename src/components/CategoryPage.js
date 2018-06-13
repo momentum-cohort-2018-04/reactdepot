@@ -5,10 +5,10 @@ import { Title } from 'bloomer'
 
 class CategoryPage extends React.Component {
   render () {
-    const { category } = this.props
+    const { category, libraries } = this.props
     return (<div className='CategoryPage'>
       <Title>{category.title}</Title>
-      {category.libraries && category.libraries.map(library => (
+      {libraries.map(library => (
         <Library key={library.id} library={library} />
       ))}
     </div>
@@ -18,9 +18,9 @@ class CategoryPage extends React.Component {
 
 CategoryPage.propTypes = {
   category: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    libraries: PropTypes.array
-  })
+    title: PropTypes.string.isRequired
+  }),
+  libraries: PropTypes.array
 }
 
 export default CategoryPage

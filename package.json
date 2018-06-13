@@ -6,6 +6,7 @@
     "bloomer": "^0.6.3",
     "bulma": "^0.7.1",
     "classnames": "^2.2.6",
+    "firebase": "^5.0.4",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
@@ -28,7 +29,8 @@
     "build-storybook": "build-storybook -s public",
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
-    "api-server": "json-server db.json"
+    "api-server": "json-server db.json",
+    "deploy": "yarn build && firebase deploy"
   },
   "standard": {
     "globals": [

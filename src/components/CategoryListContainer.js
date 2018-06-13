@@ -16,7 +16,7 @@ class CategoryListContainer extends React.Component {
   }
 
   componentDidMount () {
-    this.db.getCategoriesAndLibraries()
+    this.db.getCategories()
       .then(categories => {
         this.setState({
           loaded: true,

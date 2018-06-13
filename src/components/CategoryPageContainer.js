@@ -8,7 +8,8 @@ class CategoryPageContainer extends React.Component {
     super()
     this.state = {
       loaded: false,
-      category: null
+      category: null,
+      libraries: []
     }
 
     this.db = new Database()
@@ -24,11 +25,15 @@ class CategoryPageContainer extends React.Component {
         category: category
       })
     })
+
+    this.db.getLibraries(categoryId).then(libraries => {
+      this.setState({libraries: libraries})
+    })
   }
 
   render () {
     return <Loader loaded={this.state.loaded}>
-      <CategoryPage category={this.state.category} />
+      <CategoryPage category={this.state.category} libraries={this.state.libraries} />
     </Loader>
   }
 }

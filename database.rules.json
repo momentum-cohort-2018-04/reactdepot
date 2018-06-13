@@ -1,0 +1,9 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": false,
+    "libraries": {
+      ".indexOn": "categoryId"
+    }
+  }
+}
