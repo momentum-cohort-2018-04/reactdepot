@@ -9,7 +9,8 @@ class CategoryPageContainer extends React.Component {
     this.state = {
       loaded: false,
       category: null,
-      libraries: []
+      libraries: [],
+      libraryName: []
     }
 
     this.db = new Database()
@@ -28,6 +29,10 @@ class CategoryPageContainer extends React.Component {
 
     this.db.getLibraries(categoryId).then(libraries => {
       this.setState({libraries: libraries})
+      const arr = libraries.map(library => library.id)
+      this.setState({
+        libraryName: arr
+      })
     })
   }
 
