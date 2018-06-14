@@ -42,6 +42,15 @@ class Database {
         return data
       })
   }
+
+  getLibrary (libraryName) {
+    // console.log('categoryName', libraryName)
+    return this.db.ref(`/libraries/${libraryName}`).once('value').then(snapshot => {
+      // console.log('snapshot.val()', snapshot.val())
+      // console.log(snapshot)
+      return snapshot.val()
+    })
+  }
 }
 
 export default Database

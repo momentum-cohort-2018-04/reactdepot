@@ -6,6 +6,7 @@ import CategoryListContainer from './CategoryListContainer'
 import CategoryPageContainer from './CategoryPageContainer'
 import LibraryPage from './LibraryPage'
 import PageHeader from './PageHeader'
+// import LibraryAdd from './LibraryAdd'
 
 class App extends Component {
   render () {
@@ -15,7 +16,8 @@ class App extends Component {
           <PageHeader />
           <Route exact path='/' component={CategoryListContainer} />
           <Route path='/category/:categoryId' component={CategoryPageContainer} />
-          <Route path='/library/:libraryId' component={LibraryPage} />
+          <Route path='/library/:libraryName' component={LibraryPage} />
+          {/* <Route path='/library/add' component={LibraryAdd} /> */}
         </Container>
       </div>
     )
