@@ -27,3 +27,7 @@ body {
 .Library {
   margin-bottom: 2rem;
 }
+
+.score {
+  text-align: right;
+}
