@@ -44,12 +44,17 @@ class Database {
   }
 
   getLibrary (libraryName) {
-    // console.log('categoryName', libraryName)
     return this.db.ref(`/libraries/${libraryName}`).once('value').then(snapshot => {
-      // console.log('snapshot.val()', snapshot.val())
-      // console.log(snapshot)
       return snapshot.val()
     })
+  }
+
+  editLibrary (libraryData) {
+    return this.db.ref(`/libraries/${libraryData.name}`)
+      .set(libraryData)
+      .then(response => {
+        return response
+      })
   }
 }
 

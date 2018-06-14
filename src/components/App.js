@@ -4,8 +4,8 @@ import { Container } from 'bloomer'
 import './App.css'
 import CategoryListContainer from './CategoryListContainer'
 import CategoryPageContainer from './CategoryPageContainer'
-import LibraryPage from './LibraryPage'
 import PageHeader from './PageHeader'
+import LibraryEdit from './LibraryEdit'
 // import LibraryAdd from './LibraryAdd'
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
           <PageHeader />
           <Route exact path='/' component={CategoryListContainer} />
           <Route path='/category/:categoryId' component={CategoryPageContainer} />
-          <Route path='/library/:libraryName' component={LibraryPage} />
+          <Route path='/library/:libraryName/edit' component={LibraryEdit} />
           {/* <Route path='/library/add' component={LibraryAdd} /> */}
         </Container>
       </div>

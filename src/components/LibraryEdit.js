@@ -1,58 +1,10 @@
 import React from 'react'
 import Database from '../Database'
-import Library from './Library'
 import { Box, Icon, Columns, Column, Control, Input, Label, Select, Field, TextArea, Button } from 'bloomer'
 // import { bindActionCreators } from 'redux'
 // import { target } from 'glamor'
 
-import { Route } from 'react-router-dom'
-
-class LibraryPage extends React.Component {
-  render () {
-    console.log('lib page props', this.props)
-    return (
-      <React.Fragment>
-        <Route exact path='/library/:libraryName' render={props => (
-          <ViewLibrary {...props} />
-        )} />
-        <Route exact path='/library/:libraryName/edit' render={props => (
-          <EditLibrary {...props} />
-        )} />
-      </React.Fragment>
-
-    )
-  }
-}
-export default LibraryPage
-
-class ViewLibrary extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      libraryName: this.props.match.params.libraryName,
-      libraryEntry: ''
-    }
-    this.db = new Database()
-    console.log('view lib props', props)
-  }
-
-  componentDidMount () {
-    console.log('HELLO>?')
-    this.db.getLibrary(this.state.libraryName)
-      .then((response) => {
-        console.log('library edit test', response)
-        this.setState({
-          libraryEntry: response
-        })
-      })
-  }
-
-  render () {
-    return <Library library={this.state.libraryEntry} />
-  }
-}
-
-class EditLibrary extends React.Component {
+class LibraryEdit extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -68,8 +20,9 @@ class EditLibrary extends React.Component {
       npm: ''
     }
     this.db = new Database()
+    console.log(this.props)
     this.changeHandler = this.changeHandler.bind(this)
-    console.log('EDIT lib props', props)
+    this.submitEdit = this.submitEdit.bind(this)
   }
 
   componentDidMount () {
@@ -77,7 +30,6 @@ class EditLibrary extends React.Component {
       .then((response) => {
         console.log('tst', response)
         console.log(typeof (response))
-        // const data = response
         this.setState({
           libraryEntry: response,
           name: response.name,
@@ -92,14 +44,9 @@ class EditLibrary extends React.Component {
       .then((response) => {
         console.log(response)
         console.log(this.state.categoryId)
-        const justCat = response.map((entry, id) => {
-          if (this.state.categoryId === entry.id) {
-            return <option value={entry.id} key={id} >{entry.id} </option>
-          } else {
-            return <option value={entry.id} key={id}>{entry.id}</option>
-          }
-          /// index.js:2178 Warning: Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>
-        })
+        const justCat = response.map((entry, id) => (
+          <option value={entry.id} key={id}>{entry.id}</option>
+        ))
         this.setState({
           categorySelect: justCat
         })
@@ -110,10 +57,24 @@ class EditLibrary extends React.Component {
     this.setState({[event.target.name]: event.target.value})
   }
 
-  render () {
-    // if (this.state.libraryEntry !== {}) {
-    const library = this.state
+  submitEdit () {
+    const updatedLib = {
+      categoryId: this.state.categoryId,
+      description: this.state.description,
+      github: this.state.github,
+      name: this.state.name,
+      npm: this.state.npm,
+      needsUpdate: true
+    }
+    this.db.editLibrary(updatedLib)
+      .then((response) => {
+        // console.log('submitedit response', response)
+        this.props.history.push(`/category/${this.state.categoryId}`)
+      })
+  }
 
+  render () {
+    const library = this.state
     return (
       <div className='Library'>
         <Box>
@@ -137,7 +98,6 @@ class EditLibrary extends React.Component {
               <TextArea type='text' value={library.description} name='description' onChange={(event) => this.changeHandler(event)} />
             </Control>
           </Field>}
-
           <Columns>
             {library.github && (
               <Column>
@@ -162,7 +122,7 @@ class EditLibrary extends React.Component {
           </Columns>
           <Field isGrouped>
             <Control>
-              <Button >Submit</Button>
+              <Button onClick={() => this.submitEdit()} type='button'>Submit</Button>
             </Control>
             <Control>
               <Button onClick={() => this.props.history.push(`/category/${library.categoryId}`)}>Cancel</Button>
@@ -171,6 +131,7 @@ class EditLibrary extends React.Component {
           {/* </Form> */}
         </Box>
       </div>)
-    // } else return null
   }
 }
+
+export default LibraryEdit
