@@ -2,9 +2,9 @@ import React from 'react'
 import { Box, Subtitle, Icon, Columns, Column, Button } from 'bloomer'
 import { Link } from 'react-router-dom'
 import request from 'superagent'
+import UserContext from '../UserContext'
 
 class Library extends React.Component {
-
   constructor () {
     super()
     this.state = {
@@ -71,7 +71,9 @@ class Library extends React.Component {
             </Column>
           )}
         </Columns>
-        <Link to={`/library/${library.name}/edit`}><Button>Edit</Button></Link>
+        <UserContext.Consumer>
+          {user => user && <Link to={`/library/${library.name}/edit`}><Button>Edit</Button></Link>}
+        </UserContext.Consumer>
       </Box>
     </div>)
   }
