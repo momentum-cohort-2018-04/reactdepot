@@ -5,6 +5,7 @@ import './App.css'
 import CategoryListContainer from './CategoryListContainer'
 import CategoryPageContainer from './CategoryPageContainer'
 import PageHeader from './PageHeader'
+import LibraryEdit from './LibraryEdit'
 import firebase from '../firebase'
 import UserContext from '../UserContext'
 
@@ -33,6 +34,7 @@ class App extends Component {
             <PageHeader />
             <Route exact path='/' component={CategoryListContainer} />
             <Route path='/category/:categoryId' component={CategoryPageContainer} />
+            <Route path='/library/:libraryName/edit' component={LibraryEdit} />
           </Container>
         </div>
       </UserContext.Provider>

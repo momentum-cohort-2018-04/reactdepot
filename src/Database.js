@@ -41,6 +41,20 @@ class Database {
         return data
       })
   }
+
+  getLibrary (libraryName) {
+    return this.db.ref(`/libraries/${libraryName}`).once('value').then(snapshot => {
+      return snapshot.val()
+    })
+  }
+
+  editLibrary (libraryData) {
+    return this.db.ref(`/libraries/${libraryData.name}`)
+      .set(libraryData)
+      .then(response => {
+        return response
+      })
+  }
 }
 
 export default Database
