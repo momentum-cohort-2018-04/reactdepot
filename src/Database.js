@@ -7,7 +7,6 @@ class Database {
 
   getCategories () {
     return this.db.ref('/categories').once('value').then(snapshot => {
-      console.log('snapshot.val()', snapshot.val())
       let categories = snapshot.val()
       let data = Object.keys(categories).map(key => {
         const category = categories[key]

@@ -6,20 +6,38 @@ import CategoryListContainer from './CategoryListContainer'
 import CategoryPageContainer from './CategoryPageContainer'
 import PageHeader from './PageHeader'
 import LibraryEdit from './LibraryEdit'
-// import LibraryAdd from './LibraryAdd'
+import firebase from '../firebase'
+import UserContext from '../UserContext'
 
 class App extends Component {
+  constructor () {
+    super()
+
+    this.state = {
+      user: firebase.auth().currentUser
+    }
+  }
+
+  componentDidMount () {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({
+        user: user
+      })
+    })
+  }
+
   render () {
     return (
-      <div className='App'>
-        <Container>
-          <PageHeader />
-          <Route exact path='/' component={CategoryListContainer} />
-          <Route path='/category/:categoryId' component={CategoryPageContainer} />
-          <Route path='/library/:libraryName/edit' component={LibraryEdit} />
-          {/* <Route path='/library/add' component={LibraryAdd} /> */}
-        </Container>
-      </div>
+      <UserContext.Provider value={this.state.user}>
+        <div className='App'>
+          <Container>
+            <PageHeader />
+            <Route exact path='/' component={CategoryListContainer} />
+            <Route path='/category/:categoryId' component={CategoryPageContainer} />
+            <Route path='/library/:libraryName/edit' component={LibraryEdit} />
+          </Container>
+        </div>
+      </UserContext.Provider>
     )
   }
 }

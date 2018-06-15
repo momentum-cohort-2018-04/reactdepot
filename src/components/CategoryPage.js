@@ -9,7 +9,7 @@ class CategoryPage extends React.Component {
     return (<div className='CategoryPage'>
       <Title>{category.title}</Title>
       {libraries.map(library => (
-        <Library key={library.id} library={library} />
+        <Library key={library.id} library={library} libraryName={library.id} />
       ))}
     </div>
     )
