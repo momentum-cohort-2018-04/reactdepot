@@ -15,6 +15,7 @@ function cleanNpmsResponse (data) {
   const { collected, score, analyzedAt } = data
   return {
     analyzedAt: analyzedAt,
+    github: collected.github,
     npm: {
       currentVersion: collected.metadata.version,
       description: collected.metadata.description,
