@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom'
 import { Level, LevelLeft, LevelRight, LevelItem, Title, Button } from 'bloomer'
 import firebase from '../firebase'
 import UserContext from '../UserContext'
-const provider = new firebase.auth.GithubAuthProvider()
 
 class PageHeader extends React.Component {
   handleLogin = (event) => {
     event.preventDefault()
-    firebase.auth().signInWithRedirect(provider)
+    const provider = new firebase.auth.GithubAuthProvider()
+    firebase.auth().signInWithPopup(provider)
+  }
+
+  handleLogout = (event) => {
+    event.preventDefault()
+    firebase.auth().signOut()
   }
 
   render () {
@@ -31,8 +36,11 @@ class PageHeader extends React.Component {
         </LevelLeft>
         <LevelRight>
           <LevelItem>
+            {user && <span>Hello, {user.displayName}</span>}
+          </LevelItem>
+          <LevelItem>
             {user
-              ? <span>Hello, {user.displayName}</span>
+              ? <Button isColor='warning' onClick={this.handleLogout}>Logout</Button>
               : <Button isColor='primary' onClick={this.handleLogin}>Login with GitHub</Button>}
           </LevelItem>
         </LevelRight>
