@@ -38,6 +38,7 @@ class Database {
           const library = libraries[key]
           return {id: key, ...library}
         })
+        data.sort((a, b) => -(a.score.final - b.score.final))
         return data
       })
   }

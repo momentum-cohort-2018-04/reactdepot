@@ -6,32 +6,32 @@ import UserContext from '../UserContext'
 class Library extends React.Component {
   render () {
     const { library } = this.props
-
-    let npmInfo = library.npms && library.npms.npm
-    let ghInfo = library.npms && library.npms.github
-    let score = library.npms && library.npms.score
+    const { npm, github, score, links } = library
 
     return (<div className='Library'>
       <Box>
         <Columns>
           <Column isSize='3/4'>
-            <Subtitle>{library.name}</Subtitle>
+            <Subtitle>{library.name || library.libraryId}</Subtitle>
           </Column>
 
           <Column isSize='1/4'>
             <Subtitle className='score'>{score && Math.round(score.final * 100)}</Subtitle>
           </Column>
         </Columns>
-        {library.description && <p>{library.description}</p>}
+        <Subtitle isSize={6}>
+          {library.description && <p>{library.description}</p>}
+        </Subtitle>
         <Columns>
           {library.github && (
             <Column>
               <Icon isSize='small' className='fab fa-github' />
               <span style={{marginLeft: '0.5rem'}}>
-                <a href={`https://github.com/${library.github}`}>GitHub</a>
-                {ghInfo && <React.Fragment>
-                  <div>stars {ghInfo.starsCount}</div>
-                  <div>open issues {ghInfo.issues.openCount}</div>
+                {/* TODO - check that repo exists and is GH repo */}
+                <a href={links.repository}>GitHub</a>
+                {github && <React.Fragment>
+                  <div>stars {github.starsCount}</div>
+                  <div>open issues {github.issues.openCount}</div>
                 </React.Fragment>}
               </span>
             </Column>
@@ -40,12 +40,20 @@ class Library extends React.Component {
             <Column>
               <Icon isSize='small' className='fab fa-npm' />
               <span style={{marginLeft: '0.5rem'}}>
-                <a href={`https://www.npmjs.com/package/${library.npm}`}>npm</a>
-                {npmInfo && <React.Fragment>
-                  <div>version {npmInfo.currentVersion}</div>
-                  <div>monthly downloads {npmInfo.downloads.oneMonth.count}</div>
-                  <div>dependent libraries {npmInfo.dependentsCount}</div>
+                <a href={links.npm}>npm</a>
+                {npm && <React.Fragment>
+                  <div>version {library.version}</div>
+                  <div>monthly downloads {npm.downloads.oneMonth.count}</div>
+                  <div>dependent libraries {npm.dependentsCount}</div>
                 </React.Fragment>}
+              </span>
+            </Column>
+          )}
+          {links.homepage && (
+            <Column>
+              <Icon isSize='small' className='fas fa-home' />
+              <span style={{marginLeft: '0.5rem'}}>
+                <a href={links.homepage}>homepage</a>
               </span>
             </Column>
           )}
