@@ -38,7 +38,13 @@ class Database {
           const library = libraries[key]
           return {id: key, ...library}
         })
-        data.sort((a, b) => -(a.score.final - b.score.final))
+        data.sort((a, b) => {
+          if (a.score && b.score) {
+            return -(a.score.final - b.score.final)
+          } else {
+            return 0
+          }
+        })
         return data
       })
   }
@@ -50,11 +56,15 @@ class Database {
   }
 
   editLibrary (libraryData) {
-    return this.db.ref(`/libraries/${libraryData.name}`)
-      .set(libraryData)
+    return this.db.ref(`/libraries/${libraryData.libraryId}`)
+      .update(libraryData)
       .then(response => {
         return response
       })
+  }
+
+  updateLibrary (libraryName) {
+    return this.editLibrary({libraryId: libraryName, needsUpdate: true})
   }
 }
 

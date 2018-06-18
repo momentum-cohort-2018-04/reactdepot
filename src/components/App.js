@@ -34,7 +34,7 @@ class App extends Component {
             <PageHeader />
             <Route exact path='/' component={CategoryListContainer} />
             <Route path='/category/:categoryId' component={CategoryPageContainer} />
-            <Route path='/library/:libraryName/edit' component={LibraryEdit} />
+            <Route path='/library/:libraryId/edit' component={LibraryEdit} />
           </Container>
         </div>
       </UserContext.Provider>

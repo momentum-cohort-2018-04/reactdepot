@@ -15,11 +15,18 @@ const CategoryList = (props) => {
           </Title>
         </Column>
       ))}
+      {props.showUncategorized &&
+      <Column isSize={6} className='CategoryList__category'>
+        <Title className='CategoryList__title'>
+          <Link to={`/category/null`}>Uncategorized</Link>
+        </Title>
+      </Column>}
     </Columns>
   </Section>)
 }
 
 CategoryList.propTypes = {
+  showUncategorized: PropTypes.bool,
   categories: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

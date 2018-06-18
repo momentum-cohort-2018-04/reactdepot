@@ -9,6 +9,7 @@ class CategoryListContainer extends React.Component {
 
     this.state = {
       loaded: false,
+      showUncategorized: false,
       categories: []
     }
 
@@ -22,6 +23,15 @@ class CategoryListContainer extends React.Component {
           loaded: true,
           categories: categories
         })
+      })
+
+    this.db.getLibraries(null)
+      .then(libraries => {
+        if (libraries.length > 0) {
+          this.setState({
+            showUncategorized: true
+          })
+        }
       })
   }
 

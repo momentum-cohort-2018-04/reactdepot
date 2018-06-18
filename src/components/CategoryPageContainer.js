@@ -18,7 +18,10 @@ class CategoryPageContainer extends React.Component {
 
   componentDidMount () {
     const { match } = this.props
-    const categoryId = match.params.categoryId
+    let categoryId = match.params.categoryId
+    if (categoryId === 'null') {
+      categoryId = null
+    }
 
     this.db.getCategory(categoryId).then(category => {
       this.setState({

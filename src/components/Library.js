@@ -1,9 +1,15 @@
 import React from 'react'
-import { Box, Subtitle, Icon, Columns, Column, Button } from 'bloomer'
+import { Box, Subtitle, Icon, Columns, Column, Button, Control, Field } from 'bloomer'
 import { Link } from 'react-router-dom'
 import UserContext from '../UserContext'
+import Database from '../Database'
 
 class Library extends React.Component {
+  handleUpdate = () => {
+    const db = new Database()
+    db.updateLibrary(this.props.library.libraryId)
+  }
+
   render () {
     const { library } = this.props
     const { npm, github, score, links } = library
@@ -22,8 +28,9 @@ class Library extends React.Component {
         <Subtitle isSize={6}>
           {library.description && <p>{library.description}</p>}
         </Subtitle>
+        {links &&
         <Columns>
-          {library.github && (
+          {github && (
             <Column>
               <Icon isSize='small' className='fab fa-github' />
               <span style={{marginLeft: '0.5rem'}}>
@@ -36,7 +43,7 @@ class Library extends React.Component {
               </span>
             </Column>
           )}
-          {library.npm && (
+          {npm && (
             <Column>
               <Icon isSize='small' className='fab fa-npm' />
               <span style={{marginLeft: '0.5rem'}}>
@@ -57,9 +64,12 @@ class Library extends React.Component {
               </span>
             </Column>
           )}
-        </Columns>
+        </Columns>}
         <UserContext.Consumer>
-          {user => user && <Link to={`/library/${library.name}/edit`}><Button>Edit</Button></Link>}
+          {user => user && <Field isGrouped>
+            <Control><Button onClick={this.handleUpdate()}>Update</Button></Control>
+            <Control><Link to={`/library/${library.libraryId}/edit`}><Button>Edit</Button></Link></Control>
+          </Field>}
         </UserContext.Consumer>
       </Box>
     </div>)
