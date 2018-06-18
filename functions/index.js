@@ -2,14 +2,16 @@ const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 admin.initializeApp()
 
-// import data from './data'
 const data = require('./data')
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  response.send('Hello from Firebase!')
+exports.libraryData = functions.https.onRequest((req, res) => {
+  const libraryId = req.query['id']
+  if (!libraryId) {
+    res.status(400).send('must contain id param')
+  }
+  admin.database().ref(`/libraries/${libraryId}`).once('value').then(snap =>
+    res.send({[libraryId]: snap.val()})
+  )
 })
 
-exports.getLibraryData = data.getLibraryData
+exports.retrieveLibraryData = data.retrieveLibraryData

@@ -49,7 +49,7 @@ function getInfoFromRegistry (libraryId) {
     .then(info => cleanRegistryResponse(info))
 }
 
-exports.getLibraryData = functions.database.ref('/libraries/{libraryId}/needsUpdate')
+exports.retrieveLibraryData = functions.database.ref('/libraries/{libraryId}/needsUpdate')
   .onWrite((change, context) => {
     const afterSnap = change.after
     const needsUpdate = afterSnap.val()
