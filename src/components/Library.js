@@ -30,32 +30,30 @@ class Library extends React.Component {
         </Subtitle>
         {links &&
         <Columns>
-          {github && (
-            <Column>
-              <Icon isSize='small' className='fab fa-github' />
-              <span style={{marginLeft: '0.5rem'}}>
-                {/* TODO - check that repo exists and is GH repo */}
-                <a href={links.repository}>GitHub</a>
-                {github && <React.Fragment>
-                  <div>stars {github.starsCount}</div>
-                  <div>open issues {github.issues.openCount}</div>
-                </React.Fragment>}
-              </span>
-            </Column>
-          )}
-          {npm && (
-            <Column>
-              <Icon isSize='small' className='fab fa-npm' />
-              <span style={{marginLeft: '0.5rem'}}>
-                <a href={links.npm}>npm</a>
-                {npm && <React.Fragment>
-                  <div>version {library.version}</div>
-                  <div>monthly downloads {npm.downloads.oneMonth.count}</div>
-                  <div>dependent libraries {npm.dependentsCount}</div>
-                </React.Fragment>}
-              </span>
-            </Column>
-          )}
+          {links.repository &&
+          <Column>
+            <Icon isSize='small' className='fab fa-github' />
+            <span style={{marginLeft: '0.5rem'}}>
+              {/* TODO - check that repo exists and is GH repo */}
+              <a href={links.repository}>GitHub</a>
+              {github && <React.Fragment>
+                <div>stars {github.starsCount}</div>
+                <div>open issues {github.issues.openCount}</div>
+              </React.Fragment>}
+            </span>
+          </Column>}
+          {links.npm &&
+          <Column>
+            <Icon isSize='small' className='fab fa-npm' />
+            <span style={{marginLeft: '0.5rem'}}>
+              <a href={links.npm}>npm</a>
+              <div>version {library.version}</div>
+              {npm && <React.Fragment>
+                <div>monthly downloads {npm.downloads.oneMonth.count}</div>
+                <div>dependent libraries {npm.dependentsCount}</div>
+              </React.Fragment>}
+            </span>
+          </Column>}
           {links.homepage && (
             <Column>
               <Icon isSize='small' className='fas fa-home' />

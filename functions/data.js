@@ -28,6 +28,27 @@ function cleanNpmsResponse (data) {
   }
 }
 
+function cleanRegistryResponse (info) {
+  const version = info['dist-tags'].latest
+  return {
+    libraryId: info.name,
+    needsUpdate: false,
+    description: info.description,
+    version: version,
+    license: info.license,
+    links: {
+      npm: `https://www.npmjs.com/package/${info.name}`,
+      homepage: info.homepage
+    }
+  }
+}
+
+function getInfoFromRegistry (libraryId) {
+  return request.get(`http://registry.npmjs.org/${libraryId}`)
+    .then(res => res.body)
+    .then(info => cleanRegistryResponse(info))
+}
+
 exports.getLibraryData = functions.database.ref('/libraries/{libraryId}/needsUpdate')
   .onWrite((change, context) => {
     const afterSnap = change.after
@@ -42,7 +63,11 @@ exports.getLibraryData = functions.database.ref('/libraries/{libraryId}/needsUpd
       .then(res => res.body)
       .then(info => cleanNpmsResponse(info))
       .then(info => {
-        console.log(info)
         return afterSnap.ref.parent.update(info)
+      })
+      .catch(() => {
+        return getInfoFromRegistry(libraryId).then(info => {
+          return afterSnap.ref.parent.update(info)
+        })
       })
   })

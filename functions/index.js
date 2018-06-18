@@ -2,6 +2,7 @@ const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 admin.initializeApp()
 
+// import data from './data'
 const data = require('./data')
 
 // // Create and Deploy Your First Cloud Functions
