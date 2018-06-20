@@ -15,6 +15,19 @@ class Database {
     })
   }
 
+  watchCategories (callback) {
+    const ref = this.db.ref('/categories')
+    ref.on('value', snapshot => {
+      const categories = snapshot.val()
+      const data = Object.keys(categories).map(key => {
+        const category = categories[key]
+        return {id: key, ...category}
+      })
+      callback(data)
+    })
+    return ref
+  }
+
   getCategories () {
     return this.db.ref('/categories').once('value').then(snapshot => {
       let categories = snapshot.val()
@@ -33,8 +46,14 @@ class Database {
     })
   }
 
+  watchLibraries (categoryId, callback) {
+    return this.db.ref('/libraries')
+      .orderByChild('categoryId')
+      .equalTo(categoryId)
+      .on('value', callback)
+  }
+
   getLibraries (categoryId) {
-    console.log('categoryId', categoryId)
     return this.db.ref('/libraries')
       .orderByChild('categoryId')
       .equalTo(categoryId)

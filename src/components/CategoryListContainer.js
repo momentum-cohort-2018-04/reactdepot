@@ -15,17 +15,18 @@ class CategoryListContainer extends React.Component {
     }
 
     this.db = new Database()
+    this.categoriesRef = null
   }
 
   componentDidMount () {
-    this.db.getCategories()
-      .then(categories => {
-        this.setState({
-          loaded: true,
-          categories: categories
-        })
+    this.categoriesRef = this.db.watchCategories(categories => {
+      this.setState({
+        loaded: true,
+        categories: categories
       })
+    })
 
+    // TODO make this live update
     this.db.getLibraries(null)
       .then(libraries => {
         if (libraries.length > 0) {
@@ -36,15 +37,12 @@ class CategoryListContainer extends React.Component {
       })
   }
 
+  componentWillUnmount () {
+    this.categoriesRef.off('value')
+  }
+
   addCategory = (title, slug) => {
     return this.db.addCategory(title, slug)
-      .then(() => this.db.getCategories())
-      .then(categories => {
-        this.setState({
-          loaded: true,
-          categories: categories
-        })
-      })
   }
 
   render () {
