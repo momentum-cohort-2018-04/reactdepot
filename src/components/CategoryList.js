@@ -3,26 +3,55 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Title, Section, Columns, Column } from 'bloomer'
 
-const CategoryList = (props) => {
-  const categories = props.categories || []
+import AddCategory from './AddCategory'
 
-  return (<Section className='CategoryList'>
-    <Columns isMultiline>
-      {categories.map(category => (
-        <Column isSize={6} key={category.id} isChild className='CategoryList__category'>
+class CategoryList extends React.Component {
+  constructor () {
+    super()
+    this.state = {adding: false}
+  }
+
+  openAdd = () => {
+    this.setState({
+      adding: true
+    })
+  }
+
+  closeAdd = () => {
+    this.setState({
+      adding: false
+    })
+  }
+
+  render () {
+    const categories = this.props.categories || []
+    const { showUncategorized, loggedIn } = this.props
+
+    return (<Section className='CategoryList'>
+      <Columns isMultiline>
+        {categories.map(category => (
+          <Column isSize={6} key={category.id} isChild className='CategoryList__category'>
+            <Title className='CategoryList__title'>
+              <Link to={`/category/${category.id}`}>{category.title}</Link>
+            </Title>
+          </Column>
+        ))}
+        {showUncategorized &&
+        <Column isSize={6} className='CategoryList__category'>
           <Title className='CategoryList__title'>
-            <Link to={`/category/${category.id}`}>{category.title}</Link>
+            <Link to={`/category/null`}>Uncategorized</Link>
           </Title>
-        </Column>
-      ))}
-      {props.showUncategorized &&
-      <Column isSize={6} className='CategoryList__category'>
-        <Title className='CategoryList__title'>
-          <Link to={`/category/null`}>Uncategorized</Link>
-        </Title>
-      </Column>}
-    </Columns>
-  </Section>)
+        </Column>}
+        {loggedIn &&
+        <Column isSize={6} className='CategoryList__category'>
+          <Title className='CategoryList__title'>
+            <a onClick={this.openAdd}>+ Add Category</a>
+          </Title>
+        </Column>}
+      </Columns>
+      <AddCategory visible={this.state.adding} handleClose={this.closeAdd} addCategory={this.props.addCategory} />
+    </Section>)
+  }
 }
 
 CategoryList.propTypes = {
@@ -39,7 +68,9 @@ CategoryList.propTypes = {
         })
       )
     })
-  )
+  ),
+  loggedIn: PropTypes.bool,
+  addCategory: PropTypes.func
 }
 
 export default CategoryList

@@ -1,5 +1,10 @@
 const functions = require('firebase-functions')
+const admin = require('firebase-admin')
 const request = require('superagent')
+
+function toKey (id) {
+  return id.replace(/[$#[\],./]/, '--')
+}
 
 function cleanNpmsResponse (data) {
   const { collected, score, analyzedAt } = data
@@ -71,3 +76,21 @@ exports.retrieveLibraryData = functions.database.ref('/libraries/{libraryId}/nee
         })
       })
   })
+
+exports.updateLibrary = functions.https.onRequest((req, res) => {
+  const libraryId = req.query['id']
+  if (!libraryId) {
+    res.status(400).send('must contain id param')
+  }
+
+  return request.get(`https://api.npms.io/v2/package/${libraryId}`)
+    .then(res => res.body)
+    .then(info => cleanNpmsResponse(info))
+    .then(info => {
+      return admin.database().ref(`/libraries/${toKey(libraryId)}`).update(info)
+    })
+    .then(() => res.send('OK'))
+    // .catch(() => {
+    //   res.status(500).send('could not get data')
+    // })
+})

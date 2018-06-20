@@ -2,6 +2,8 @@ import React from 'react'
 import Database from '../Database'
 import { Box, Control, Label, Select, Field, Button } from 'bloomer'
 
+// TODO break this into container and presentational components
+
 class LibraryEdit extends React.Component {
   constructor (props) {
     super(props)

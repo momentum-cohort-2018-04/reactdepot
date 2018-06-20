@@ -15,3 +15,4 @@ exports.libraryData = functions.https.onRequest((req, res) => {
 })
 
 exports.retrieveLibraryData = data.retrieveLibraryData
+exports.updateLibrary = data.updateLibrary

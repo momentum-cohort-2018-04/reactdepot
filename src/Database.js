@@ -1,8 +1,18 @@
 import firebase from './firebase'
 
+export function toKey (id) {
+  return id.replace(/[$#[\],./]/, '--')
+}
+
 class Database {
   constructor () {
     this.db = firebase.database()
+  }
+
+  addCategory (title, slug) {
+    return this.db.ref(`/categories/${slug}`).set({
+      title: title
+    })
   }
 
   getCategories () {
@@ -17,7 +27,7 @@ class Database {
   }
 
   getCategory (categoryId) {
-    return this.db.ref(`/categories/${categoryId}`).once('value').then(snapshot => {
+    return this.db.ref(`/categories/${toKey(categoryId)}`).once('value').then(snapshot => {
       const category = snapshot.val()
       return {id: categoryId, ...category}
     })
@@ -50,13 +60,13 @@ class Database {
   }
 
   getLibrary (libraryName) {
-    return this.db.ref(`/libraries/${libraryName}`).once('value').then(snapshot => {
+    return this.db.ref(`/libraries/${toKey(libraryName)}`).once('value').then(snapshot => {
       return snapshot.val()
     })
   }
 
   editLibrary (libraryData) {
-    return this.db.ref(`/libraries/${libraryData.libraryId}`)
+    return this.db.ref(`/libraries/${toKey(libraryData.libraryId)}`)
       .update(libraryData)
       .then(response => {
         return response
