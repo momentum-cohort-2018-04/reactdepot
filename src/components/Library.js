@@ -78,7 +78,7 @@ class Library extends React.Component {
             </LevelItem>
           </LevelLeft>
           <LevelRight>
-            <div className="has-text-grey-light">Last updated at {moment(library.npmsLoadedAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+            <div className='has-text-grey-light'>Last updated at {moment(library.npmsLoadedAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
           </LevelRight>
         </Level>
       </Box>
