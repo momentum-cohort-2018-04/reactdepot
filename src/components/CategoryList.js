@@ -30,7 +30,7 @@ class CategoryList extends React.Component {
     return (<Section className='CategoryList'>
       <Columns isMultiline>
         {categories.map(category => (
-          <Column isSize={6} key={category.id} isChild className='CategoryList__category'>
+          <Column isSize={6} key={category.id} className='CategoryList__category'>
             <Title className='CategoryList__title'>
               <Link to={`/category/${category.id}`}>{category.title}</Link>
             </Title>

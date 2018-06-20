@@ -1,6 +1,8 @@
 import React from 'react'
-import { Box, Subtitle, Icon, Columns, Column, Button, Control, Field } from 'bloomer'
+import { Box, Subtitle, Icon, Columns, Column, Button, Control, Field,
+  Level, LevelLeft, LevelRight, LevelItem } from 'bloomer'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import UserContext from '../UserContext'
 import Database from '../Database'
 
@@ -63,12 +65,22 @@ class Library extends React.Component {
             </Column>
           )}
         </Columns>}
-        <UserContext.Consumer>
-          {user => user && <Field isGrouped>
-            <Control><Button onClick={this.handleUpdate()}>Update</Button></Control>
-            <Control><Link to={`/library/${library.libraryId}/edit`}><Button>Edit</Button></Link></Control>
-          </Field>}
-        </UserContext.Consumer>
+
+        <Level>
+          <LevelLeft>
+            <LevelItem>
+              <UserContext.Consumer>
+                {user => user && <Field isGrouped>
+                  <Control><Button onClick={this.handleUpdate}>Update</Button></Control>
+                  <Control><Link to={`/library/${library.libraryId}/edit`}><Button>Edit</Button></Link></Control>
+                </Field>}
+              </UserContext.Consumer>
+            </LevelItem>
+          </LevelLeft>
+          <LevelRight>
+            <div className="has-text-grey-light">Last updated at {moment(library.npmsLoadedAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+          </LevelRight>
+        </Level>
       </Box>
     </div>)
   }

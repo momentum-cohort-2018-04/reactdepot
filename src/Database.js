@@ -15,27 +15,26 @@ class Database {
     })
   }
 
+  cleanCategories (categories) {
+    let data = Object.keys(categories).map(key => {
+      const category = categories[key]
+      return {id: key, ...category}
+    })
+    return data
+  }
+
   watchCategories (callback) {
     const ref = this.db.ref('/categories')
     ref.on('value', snapshot => {
-      const categories = snapshot.val()
-      const data = Object.keys(categories).map(key => {
-        const category = categories[key]
-        return {id: key, ...category}
-      })
-      callback(data)
+      const categories = this.cleanCategories(snapshot.val())
+      callback(categories)
     })
-    return ref
+    return () => ref.off('value')
   }
 
   getCategories () {
     return this.db.ref('/categories').once('value').then(snapshot => {
-      let categories = snapshot.val()
-      let data = Object.keys(categories).map(key => {
-        const category = categories[key]
-        return {id: key, ...category}
-      })
-      return data
+      return this.cleanCategories(snapshot.val())
     })
   }
 
@@ -46,11 +45,33 @@ class Database {
     })
   }
 
+  cleanLibraries (libraries) {
+    if (!libraries) {
+      return []
+    }
+    let data = Object.keys(libraries).map(key => {
+      const library = libraries[key]
+      return {id: key, ...library}
+    })
+    data.sort((a, b) => {
+      if (a.score && b.score) {
+        return -(a.score.final - b.score.final)
+      } else {
+        return 0
+      }
+    })
+    return data
+  }
+
   watchLibraries (categoryId, callback) {
-    return this.db.ref('/libraries')
-      .orderByChild('categoryId')
+    const ref = this.db.ref('/libraries')
+    ref.orderByChild('categoryId')
       .equalTo(categoryId)
-      .on('value', callback)
+      .on('value', snapshot => {
+        const libraries = this.cleanLibraries(snapshot.val())
+        callback(libraries)
+      })
+    return () => ref.off('value')
   }
 
   getLibraries (categoryId) {
@@ -59,22 +80,7 @@ class Database {
       .equalTo(categoryId)
       .once('value')
       .then(snapshot => {
-        let libraries = snapshot.val()
-        if (!libraries) {
-          return []
-        }
-        let data = Object.keys(libraries).map(key => {
-          const library = libraries[key]
-          return {id: key, ...library}
-        })
-        data.sort((a, b) => {
-          if (a.score && b.score) {
-            return -(a.score.final - b.score.final)
-          } else {
-            return 0
-          }
-        })
-        return data
+        return this.cleanLibraries(snapshot.val())
       })
   }
 

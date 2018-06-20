@@ -15,30 +15,26 @@ class CategoryListContainer extends React.Component {
     }
 
     this.db = new Database()
-    this.categoriesRef = null
   }
 
   componentDidMount () {
-    this.categoriesRef = this.db.watchCategories(categories => {
+    this.stopWatchCategories = this.db.watchCategories(categories => {
       this.setState({
         loaded: true,
         categories: categories
       })
     })
 
-    // TODO make this live update
-    this.db.getLibraries(null)
-      .then(libraries => {
-        if (libraries.length > 0) {
-          this.setState({
-            showUncategorized: true
-          })
-        }
+    this.stopWatchLibraries = this.db.watchLibraries(null, libraries => {
+      this.setState({
+        showUncategorized: libraries.length > 0
       })
+    })
   }
 
   componentWillUnmount () {
-    this.categoriesRef.off('value')
+    this.stopWatchCategories()
+    this.stopWatchLibraries()
   }
 
   addCategory = (title, slug) => {
@@ -47,7 +43,7 @@ class CategoryListContainer extends React.Component {
 
   render () {
     return <Loader loaded={this.state.loaded}>
-      <CategoryList categories={this.state.categories} addCategory={this.addCategory} {...this.props} />
+      <CategoryList showUncategorized={this.state.showUncategorized} categories={this.state.categories} addCategory={this.addCategory} {...this.props} />
     </Loader>
   }
 }
