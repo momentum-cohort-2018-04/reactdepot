@@ -2,6 +2,7 @@ import React from 'react'
 import CategoryPage from './CategoryPage'
 import Loader from './Loader'
 import Database from '../Database'
+import UserContext from '../UserContext'
 
 class CategoryPageContainer extends React.Component {
   constructor () {
@@ -38,11 +39,23 @@ class CategoryPageContainer extends React.Component {
     this.stopWatchLibraries()
   }
 
+  addLibrary = (libraryId) => {
+    const catId = this.state.category ? this.state.category.id : null
+    return this.db.addLibrary(libraryId, catId)
+  }
+
   render () {
     return <Loader loaded={this.state.loaded}>
-      <CategoryPage category={this.state.category} libraries={this.state.libraries} />
+      <CategoryPage category={this.state.category}
+        libraries={this.state.libraries}
+        addLibrary={this.addLibrary}
+        loggedIn={this.props.loggedIn} />
     </Loader>
   }
 }
 
-export default CategoryPageContainer
+export default props => (
+  <UserContext.Consumer>
+    {user => <CategoryPageContainer {...props} loggedIn={Boolean(user)} />}
+  </UserContext.Consumer>
+)

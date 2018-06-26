@@ -7,6 +7,17 @@ import UserContext from '../UserContext'
 import Database from '../Database'
 
 class Library extends React.Component {
+  componentDidMount () {
+    const now = new Date()
+    const loaded = new Date(this.props.library.npmsLoadedAt || 0)
+    const interval = now - loaded
+    const oneDay = 24 * 60 * 60 * 1000
+    if (interval > oneDay) {
+      const db = new Database()
+      db.updateLibrary(this.props.library.libraryId)
+    }
+  }
+
   handleUpdate = () => {
     const db = new Database()
     db.updateLibrary(this.props.library.libraryId)

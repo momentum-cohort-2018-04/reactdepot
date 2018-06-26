@@ -84,6 +84,12 @@ class Database {
       })
   }
 
+  addLibrary (libraryId, categoryId) {
+    return this.db.ref(`/libraries/${toKey(libraryId)}`).set({
+      libraryId: libraryId, needsUpdate: true, categoryId: categoryId
+    })
+  }
+
   getLibrary (libraryName) {
     return this.db.ref(`/libraries/${toKey(libraryName)}`).once('value').then(snapshot => {
       return snapshot.val()

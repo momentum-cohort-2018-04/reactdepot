@@ -21,7 +21,7 @@ class AddLibrary extends React.Component {
 
   handleSave = (event) => {
     event.preventDefault()
-    this.props.addLibrary(this.state.name, this.props.categoryId)
+    this.props.addLibrary(this.state.name)
       .then(() => this.props.handleClose())
   }
 

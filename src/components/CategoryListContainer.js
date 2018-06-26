@@ -43,7 +43,9 @@ class CategoryListContainer extends React.Component {
 
   render () {
     return <Loader loaded={this.state.loaded}>
-      <CategoryList showUncategorized={this.state.showUncategorized} categories={this.state.categories} addCategory={this.addCategory} {...this.props} />
+      <CategoryList showUncategorized={this.state.showUncategorized}
+        categories={this.state.categories}
+        addCategory={this.addCategory} {...this.props} />
     </Loader>
   }
 }
