@@ -35,17 +35,22 @@ function cleanNpmsResponse (data) {
 
 function cleanRegistryResponse (info) {
   const version = info['dist-tags'].latest
-  return {
+  const response = {
     libraryId: info.name,
     needsUpdate: false,
     description: info.description,
     version: version,
     license: info.license,
     links: {
-      npm: `https://www.npmjs.com/package/${info.name}`,
-      homepage: info.homepage
+      npm: `https://www.npmjs.com/package/${info.name}`
     }
   }
+
+  if (info.homepage) {
+    response.links.homepage = info.homepage
+  }
+
+  return response
 }
 
 function getInfoFromRegistry (libraryId) {
