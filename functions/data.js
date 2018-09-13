@@ -6,16 +6,27 @@ function toKey (id) {
   return id.replace(/[$#[\],./]/, '--')
 }
 
+function removeEmpty (obj) {
+  Object.keys(obj).forEach(function (key) {
+    if (obj[key] && typeof obj[key] === 'object') removeEmpty(obj[key])
+    else if (obj[key] == null) delete obj[key]
+  })
+}
+
+function stripHTML (string) {
+  return string.replace(/(<([^>]+)>)/ig, '')
+}
+
 function cleanNpmsResponse (data) {
   const { collected, score, analyzedAt } = data
-  return {
+  const response = {
     libraryId: collected.metadata.name,
     npmsAnalyzedAt: analyzedAt,
     npmsLoadedAt: new Date(),
     needsUpdate: false,
 
     version: collected.metadata.version,
-    description: collected.metadata.description,
+    description: stripHTML(collected.metadata.description),
     links: collected.metadata.links,
     github: collected.github,
     license: collected.metadata.license,
@@ -31,6 +42,8 @@ function cleanNpmsResponse (data) {
       }
     }
   }
+  removeEmpty(response)
+  return response
 }
 
 function cleanRegistryResponse (info) {
@@ -38,18 +51,16 @@ function cleanRegistryResponse (info) {
   const response = {
     libraryId: info.name,
     needsUpdate: false,
-    description: info.description,
+    description: stripHTML(info.description),
     version: version,
     license: info.license,
     links: {
-      npm: `https://www.npmjs.com/package/${info.name}`
+      npm: `https://www.npmjs.com/package/${info.name}`,
+      homepage: info.homepage
     }
   }
 
-  if (info.homepage) {
-    response.links.homepage = info.homepage
-  }
-
+  removeEmpty(response)
   return response
 }
 
@@ -75,7 +86,8 @@ exports.retrieveLibraryData = functions.database.ref('/libraries/{libraryId}/nee
       .then(info => {
         return afterSnap.ref.parent.update(info)
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err)
         return getInfoFromRegistry(libraryId).then(info => {
           return afterSnap.ref.parent.update(info)
         })
