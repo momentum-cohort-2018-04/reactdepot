@@ -10,7 +10,7 @@ exports.libraryData = functions.https.onRequest((req, res) => {
     res.status(400).send('must contain id param')
   }
   admin.database().ref(`/libraries/${libraryId}`).once('value').then(snap =>
-    res.send({[libraryId]: snap.val()})
+    res.send({ [libraryId]: snap.val() })
   )
 })
 

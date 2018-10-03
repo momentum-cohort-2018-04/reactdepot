@@ -65,7 +65,7 @@ function cleanRegistryResponse (info) {
 }
 
 function getInfoFromRegistry (libraryId) {
-  return request.get(`http://registry.npmjs.org/${libraryId}`)
+  return request.get(`http://registry.npmjs.org/${encodeURIComponent(libraryId)}`)
     .then(res => res.body)
     .then(info => cleanRegistryResponse(info))
 }
@@ -78,20 +78,22 @@ exports.retrieveLibraryData = functions.database.ref('/libraries/{libraryId}/nee
       return null
     }
 
-    const libraryId = context.params.libraryId
+    return admin.database().ref(`/libraries/${context.params.libraryId}/libraryId`).once('value').then(function (snapshot) {
+      const libraryId = snapshot.val()
 
-    return request.get(`https://api.npms.io/v2/package/${libraryId}`)
-      .then(res => res.body)
-      .then(info => cleanNpmsResponse(info))
-      .then(info => {
-        return afterSnap.ref.parent.update(info)
-      })
-      .catch(err => {
-        console.error(err)
-        return getInfoFromRegistry(libraryId).then(info => {
+      return request.get(`https://api.npms.io/v2/package/${encodeURIComponent(libraryId)}`)
+        .then(res => res.body)
+        .then(info => cleanNpmsResponse(info))
+        .then(info => {
           return afterSnap.ref.parent.update(info)
         })
-      })
+        .catch(err => {
+          console.error(err)
+          return getInfoFromRegistry(libraryId).then(info => {
+            return afterSnap.ref.parent.update(info)
+          })
+        })
+    })
   })
 
 exports.updateLibrary = functions.https.onRequest((req, res) => {
@@ -100,7 +102,7 @@ exports.updateLibrary = functions.https.onRequest((req, res) => {
     res.status(400).send('must contain id param')
   }
 
-  return request.get(`https://api.npms.io/v2/package/${libraryId}`)
+  return request.get(`https://api.npms.io/v2/package/${encodeURIComponent(libraryId)}`)
     .then(res => res.body)
     .then(info => cleanNpmsResponse(info))
     .then(info => {
