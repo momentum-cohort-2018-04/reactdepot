@@ -1,6 +1,7 @@
 import React from 'react'
 import Database from '../Database'
 import { Box, Control, Label, Select, Field, Button } from 'bloomer'
+import { navigate } from '@reach/router'
 
 // TODO break this into container and presentational components
 
@@ -8,7 +9,7 @@ class LibraryEdit extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      libraryId: this.props.match.params.libraryId,
+      libraryId: props.libraryId,
       categorySelect: [],
       categoryId: ''
     }
@@ -43,7 +44,7 @@ class LibraryEdit extends React.Component {
     }
     this.db.editLibrary(updatedLib)
       .then((response) => {
-        this.props.history.push(`/category/${this.state.categoryId}`)
+        navigate(`/category/${this.state.categoryId}`)
       })
   }
 
@@ -66,7 +67,7 @@ class LibraryEdit extends React.Component {
               <Button onClick={() => this.submitEdit()} type='button'>Submit</Button>
             </Control>
             <Control>
-              <Button onClick={() => this.props.history.push(`/category/${library.categoryId}`)}>Cancel</Button>
+              <Button onClick={() => navigate(`/category/${library.categoryId}`)}>Cancel</Button>
             </Control>
           </Field>
         </Box>

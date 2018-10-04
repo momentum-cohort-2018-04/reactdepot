@@ -17,8 +17,7 @@ class CategoryPageContainer extends React.Component {
   }
 
   componentDidMount () {
-    const { match } = this.props
-    let categoryId = match.params.categoryId
+    let { categoryId } = this.props
     if (categoryId === 'null') {
       categoryId = null
     }

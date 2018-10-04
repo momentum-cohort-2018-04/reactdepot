@@ -1,6 +1,6 @@
 import React from 'react'
-import { MemoryRouter } from 'react-router-dom'
+import { Router } from '@reach/router'
 
 export function withRouter (component) {
-  return <MemoryRouter>{component}</MemoryRouter>
+  return <Router>{component}</Router>
 }

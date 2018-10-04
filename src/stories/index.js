@@ -9,7 +9,7 @@ import { storiesOf, addDecorator } from '@storybook/react'
 
 // import { Welcome } from '@storybook/react/demo'
 import { Container } from 'bloomer'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { Router } from '@reach/router'
 
 import PageHeader from '../components/PageHeader'
 import CategoryList from '../components/CategoryList'

@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from '../logo.svg'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { Level, LevelLeft, LevelRight, LevelItem, Title, Button } from 'bloomer'
 import firebase from '../firebase'
 import UserContext from '../UserContext'

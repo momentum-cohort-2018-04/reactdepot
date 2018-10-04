@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Subtitle, Icon, Columns, Column, Button, Control, Field,
   Level, LevelLeft, LevelRight, LevelItem } from 'bloomer'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import moment from 'moment'
 import UserContext from '../UserContext'
 import Database from '../Database'

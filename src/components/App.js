@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Router } from '@reach/router'
 import { Container } from 'bloomer'
 import './App.css'
 import HomePage from './HomePage'
@@ -33,9 +33,11 @@ class App extends Component {
         <div className='App'>
           <Container>
             <PageHeader />
-            <Route exact path='/' component={HomePage} />
-            <Route path='/category/:categoryId' component={CategoryPageContainer} />
-            <Route path='/library/:libraryId/edit' component={LibraryEdit} />
+            <Router>
+              <HomePage path='/' />
+              <CategoryPageContainer path='/category/:categoryId' />
+              <LibraryEdit path='/library/:libraryId/edit' />
+            </Router>
             <PageFooter />
           </Container>
         </div>
